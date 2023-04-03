@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/splashScreen.dart';
+import 'package:helloworld/navScreen.dart';
+import 'package:helloworld/loginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: SplashScreen(), // Set the splash screen as the initial route
+      home: LoginScreen(), // Set the splash screen as the initial route
       routes: {
         '/home': (context) => HomeScreen(), // Define your home screen route
       },
