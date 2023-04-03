@@ -1,41 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/splashScreen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
+      title: 'Your App',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: SplashScreen(), // Set the splash screen as the initial route
+      routes: {
+        '/home': (context) => HomeScreen(), // Define your home screen route
+      },
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});  
-
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
+        title: Text('Home Screen'),
       ),
       body: Center(
-        child: Text(
-          'Hello, World!',
-        ),
+        child: Text('Welcome to your app!'),
       ),
     );
   }
