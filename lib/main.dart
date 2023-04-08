@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/splashScreen.dart';
-import 'package:helloworld/navScreen.dart';
-import 'package:helloworld/loginScreen.dart';
+import 'package:kentrides/splashScreen.dart';
+import 'package:kentrides/navScreen.dart';
+import 'package:kentrides/loginScreen.dart';
+import 'package:kentrides/signInScreen.dart';
+import 'package:kentrides/nameScreen.dart';
+import 'package:kentrides/custHomeScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,10 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Your App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: LoginScreen(), // Set the splash screen as the initial route
+
+      home: CustHomeScreen(), // Set the splash screen as the initial route
       routes: {
         '/home': (context) => HomeScreen(), // Define your home screen route
       },

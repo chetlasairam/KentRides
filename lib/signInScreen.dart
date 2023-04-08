@@ -1,16 +1,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:kentrides/navScreen.dart';
+import 'package:kentrides/loginScreen.dart';
 
 const double kBaseFontSize = 10.0;
 
-class LoginScreen extends StatefulWidget {
+class SignInScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignInScreenState createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignInScreenState extends State<SignInScreen> {
   bool _obscureText = true;
 
   @override
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                               onPressed: () {},
-                              child: Text('Login'),
+                              child: Text('SignIn'),
                               style: ElevatedButton.styleFrom(
                                   elevation: 4,
                                   backgroundColor: Colors.green[700],
@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Don't have an account? ",
+                  "Already have an account? ",
                   style: TextStyle(
                     fontSize: fontSize,
                     color: Colors.white,
@@ -81,11 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NavScreen()),
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
                     );
                   },
                   child: Text(
-                    'Click here to SignIn',
+                    'Click here to LoginIn',
                     style: TextStyle(
                       fontSize: fontSize,
                       color: Colors.white,
