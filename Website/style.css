@@ -1,0 +1,139 @@
+body {
+    background-color: rgb(216, 255, 216);
+    /* padding-top: 20px; */
+}
+.navbar {
+    margin-bottom: 10px;
+    background-color: #28A745;
+}
+.allCards {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #ececec;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    height: 40vh;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer 10+ */
+}
+
+.allCards::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}
+.card {
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.card .card-body {
+    padding: 1rem;
+}
+.card img {
+    max-width: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.form-control, .btn-search {
+    border-radius: 20px;
+}
+.btn-search {
+    background-color: #28A745;
+    color: white;
+}
+.btn-search:hover {
+    background-color: #218838;
+}
+.navbar-brand, .nav-link {
+    color: rgb(255, 255, 255) !important;
+    font-weight: bold;
+    padding-left: 10px;
+}
+.nav-link.active {
+    color: #ededed !important;
+}
+
+.request{
+    padding: 10px;
+    background-color: #e6e6e6;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* overflow: auto; */
+    /* height: 40vh; */
+}
+
+.postBox{
+    width: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.btn-group-toggle>.btn {
+    padding: 0.5rem 1rem; /* Even padding top and bottom, adjust for horizontal as desired */
+    font-size: 0.75rem; /* Smaller font size */
+  }
+  
+  /* Ensuring the labels are aligned properly */
+  .btn-group-toggle>.btn label {
+    display: block;
+    margin: 0;
+  }
+
+  .user-profile {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .username {
+    cursor: pointer;
+  }
+  
+  .signout-option {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    z-index: 1;
+    font-size: small;
+  }
+  
+  .user-profile:hover .signout-option {
+    display: block;
+  }
+  
+
+  /* Add appropriate CSS styles to arrange the elements */
+.user-info {
+    padding: 10px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.info-heading {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.info-data {
+    flex-grow: 1;
+    text-align: right;
+}
+
+.cardlogin{
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin: 10px;
+    padding: 10px;
+}

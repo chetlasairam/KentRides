@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KentRides</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyDer9QXGQfcTklBaq9o2L5lunysctmAWu0",
+        authDomain: "rides-d2159.firebaseapp.com",
+        projectId: "rides-d2159",
+        storageBucket: "rides-d2159.appspot.com",
+        messagingSenderId: "814624189664",
+        appId: "1:814624189664:web:db9853a4ec793bdd51b485"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        
+        <img src="logopngwhite.png" alt="KentRides Logo" style="width: 40px; height: 40px;">
+        <a class="navbar-brand" href="#">KentRides</a>
+        <div class="navbar-nav ml-auto">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label id="mypostslabel" class="btn btn-outline-dark active">
+                    <input type="radio" name="options" id="requestOption" onchange="handleRadioButtonChange3(this)"> Request
+                </label>
+                <label id="allpostslabel" class="btn btn-outline-dark">
+                    <input type="radio" name="options" id="offerOption" onchange="handleRadioButtonChange3(this)"> Offer
+                </label>
+            </div>
+            
+            <div class="user-profile">
+                <span class="nav-link" id="user-name"></span>
+
+                <div class="signout-option">Sign Out</div>
+              </div>
+              
+            <a class="nav-link" id="loginButton" href="./authentication/login.html">Login</a>
+          </div>
+          
+    </div>
+</nav>
+
+<div class="container">
+    <div class="col">
+        <div class="row postBox">
+            <h5 class="card-title ">Posts</h5>
+            <div>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label id="mypostslabel" class="btn btn-outline-dark">
+                        <input type="radio" name="options" id="myPostsOption" onchange="handleRadioButtonChange(this)"> My Posts
+                    </label>
+                    <label id="allpostslabel" class="btn btn-outline-dark active">
+                        <input type="radio" name="options" id="allPostsOption" onchange="handleRadioButtonChange(this)"> All Posts
+                    </label>
+                </div>
+              <button type="button" class="btn btn-dark" id="newPostButton">New Post</button>
+            </div>
+            
+
+        </div>
+        <div class="new-post-container" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Create a New Post</h5>
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Enter your post">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md allCards">
+            
+            <div class="card">
+                
+                
+            </div>
+            
+                
+           
+            <!-- Repeat for other users -->
+        </div>
+
+
+    <!--  -->
+        
+        <div id="toOffer" class="toOfferClass" style="display: none;">
+            <h4>Requests</h4>
+        </div>
+
+        <!--  -->
+        <div id="toRequest">
+        <div class="row postBox">
+        <h5 class="card-title ">Request a Ride</h5>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-dark">
+                <input type="radio" name="options" id="requestedRides" onchange="handleRadioButtonChange2(this)"> Requested Rides
+            </label>
+            <label class="btn btn-outline-dark active">
+                <input type="radio" name="options" id="msgBox" onchange="handleRadioButtonChange2(this)"> Message Box
+            </label>
+        </div>
+    </div>
+    <div class="col" id="rideLog" style="display: none;">
+            
+        <div class="cardlog">
+            <div class="card-body-log">
+                
+                
+            </div>
+        </div>
+    </div>
+        <div class="col" id="msgBoxDiv">
+            
+            <div class="card">
+                <div class="card-body">
+                    
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="date" class="form-control date" placeholder="Date">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="time" class="form-control time" placeholder="Time">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control from" placeholder="From">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control to" placeholder="To">
+                            </div>
+                        </div>
+                        <button type="submit" id='sendrequestbutton' class="btn btn-search btn-block">Request</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+</div>
+<script src="script.js"></script>
+<script src="scriptrequests.js"></script>
+<script src="scriptoffer.js"></script>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- Include a jQuery time picker plugin of your choice -->
+
+
+</body>
+</html>
