@@ -58,50 +58,84 @@ firebase.auth().onAuthStateChanged(function(authUser) {
         
 
         // Add the event listener for the form submit here as well
-        document.querySelector('.new-post-container form').addEventListener('submit', function(event) {
+        document.querySelector('.new-post-container form').addEventListener('submit', function (event) {
             event.preventDefault(); // Prevent the default form submission behavior
 
-            // Now, the 'user' variable should be accessible here
             if (authUser) {
                 document.querySelector('.new-post-container').style.display = 'none';
-
-                // Continue with the code to post the data to Firebase
                 var postText = document.querySelector('.new-post-container input').value;
                 var userEmail = authUser.email;
-                // Reference to the Firebase Firestore database
-                var db = firebase.firestore();
+                var imageFile = document.getElementById('imageUpload').files[0]; // Get the uploaded file
 
-                // Create a new post document in the "posts" collection
-                db.collection("posts").add({
-                    username: displayName, // User's display name
-                    text: postText, 
-                    email:userEmail,// Text from the input field
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Server timestamp
-                })
-                .then(function(docRef) {
-                    // Reset the input field
-                    document.querySelector('.new-post-container input').value = "";
-                    var userEmail = authUser.email;
-                    
-                    var postRef = db.collection("users").doc(userEmail).collection("posts").doc(docRef.id);
-                    postRef.set({
-                        username: displayName, // User's display name
-                        text: postText, // Text from the input field
-                        email:userEmail,
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp() // 
+                var storageRef = firebase.storage().ref();
+
+                var imageName = userEmail + '_' + Date.now();
+                var imageRef = storageRef.child('images/' + imageName);
+
+                if (imageFile) {
+                    imageRef.put(imageFile).then(function (snapshot) {
+                        console.log('Uploaded an image!');
+
+                        imageRef.getDownloadURL().then(function (imageURL) {
+                            var db = firebase.firestore();
+
+                            db.collection("posts").add({
+                                username: authUser.displayName,
+                                text: postText,
+                                email: userEmail,
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                imageUrl: imageURL
+                            }).then(function (docRef) {
+                                document.querySelector('.new-post-container input').value = "";
+                                var postRef = db.collection("users").doc(userEmail).collection("posts").doc(docRef.id);
+                                postRef.set({
+                                    username: authUser.displayName,
+                                    text: postText,
+                                    email: userEmail,
+                                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                    imageUrl: imageURL
+                                });
+
+                                console.log("Post added with ID: ", docRef.id);
+                                document.getElementById('mypostslabel').classList.add('active');
+                                document.getElementById('allpostslabel').classList.remove('active');
+                                alert("Added Successfully");
+                            }).catch(function (error) {
+                                console.error("Error adding post: ", error);
+                            });
+                        }).catch(function (error) {
+                            console.error("Error getting image URL: ", error);
+                        });
+                    }).catch(function (error) {
+                        console.error("Error uploading image: ", error);
                     });
-                    
-                    console.log("Post added with ID: ", docRef.id);
-                    document.getElementById('mypostslabel').classList.add('active');
-                    document.getElementById('allpostslabel').classList.remove('active');
-                    alert("Added Successfully");
+                } else {
+                    var db = firebase.firestore();
 
-                })
-                .catch(function(error) {
-                    console.error("Error adding post: ", error);
-                });
+                    db.collection("posts").add({
+                        username: authUser.displayName,
+                        text: postText,
+                        email: userEmail,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    }).then(function (docRef) {
+                        document.querySelector('.new-post-container input').value = "";
+                        var postRef = db.collection("users").doc(userEmail).collection("posts").doc(docRef.id);
+                        postRef.set({
+                            username: authUser.displayName,
+                            text: postText,
+                            email: userEmail,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        console.log("Post added with ID: ", docRef.id);
+                        document.getElementById('mypostslabel').classList.add('active');
+                        document.getElementById('allpostslabel').classList.remove('active');
+                        alert("Added Successfully");
+                    }).catch(function (error) {
+                        console.error("Error adding post: ", error);
+                    });
+                }
             } else {
-                // Handle the case when no user is signed in
                 console.log("No user signed in. Cannot post.");
             }
         });
@@ -199,69 +233,129 @@ function handleRadioButtonChange(selectedRadioButton) {
 
 
 /////
-// Function to render posts in the HTML
 function renderPosts(posts) {
     var allCardsContainer = document.querySelector('.allCards');
 
     // Clear existing posts (if any)
     allCardsContainer.innerHTML = '';
 
-    // Loop through the retrieved posts
-    posts.forEach(function(post) {
-        var card = document.createElement('div');
-        card.className = 'card indivpostcard';
+    // Calculate the number of columns based on the number of posts
+    var numColumns = posts.length >= 2 ? 2 : 1;
 
-        var cardBody = document.createElement('div');
-        cardBody.className = 'card-body d-flex align-items-center';
+    // Create rows and columns in a grid layout
+    for (var i = 0; i < posts.length; i += numColumns) {
+        var row = document.createElement('div');
+        row.className = 'row';
 
-        var userImage = document.createElement('img');
-        userImage.src = 'img.jpg'; // You may replace this with the actual user image
+        // Loop for the number of columns
+        for (var j = i; j < i + numColumns && j < posts.length; j++) {
+            var post = posts[j];
 
-        var userInfo = document.createElement('div');
+            var col = document.createElement('div');
+            col.className = numColumns === 1 ? 'col-md-12 mb-4 d-flex' : 'col-md-6 mb-4 d-flex flex-column'; // Set appropriate column class
+            
+            col.style.flexDirection = 'column';
 
-        var username = document.createElement('h5');
-        username.className = 'card-title mb-0';
-        username.textContent = post.username; // Replace with the actual username
-        var mail=post.email;
-        var mailname = document.createElement('h6');
-        mailname.className = 'card-title mb-0 mail';
+            
+
+            var card = document.createElement('div');
+            card.className = 'card indivpostcard h-100';
+            card.style.height = '100%'; // Ensure column height is at least 100%
+            card.style.flexDirection = 'column';
+
+            // Card Body
+            var cardBody = document.createElement('div');
+            cardBody.className = 'card-body d-flex align-items-center';
+
+            // User Image
+            var userImage = document.createElement('img');
+            userImage.src = 'img.jpg'; // Replace with your actual user image source
+            userImage.className = 'user-img'; // Set appropriate class for styling
+
+            // User Information
+            var userInfo = document.createElement('div');
+            userInfo.className = 'user-info';
+
+            var username = document.createElement('h5');
+            username.className = 'card-title mb-0';
+            username.textContent = post.username;
+
+            var mail=post.email;
+            var mailname = document.createElement('h6');
+            mailname.className = 'card-title mb-0 mail';
+            
+            mailname.textContent = mail;
+
+            var postText = document.createElement('p');
+            postText.className = 'card-text';
+            postText.textContent = post.text;
+
+            
+
+            // Appending user info
+            userInfo.appendChild(username);
+            userInfo.appendChild(mailname);
+            // Image
+            if (post.imageUrl) {
+                var postImage = document.createElement('img');
+                postImage.src = post.imageUrl; // Set the image source from Firebase Storage
+                postImage.className = 'post-img'; // Set appropriate class for styling
+                postImage.alt = 'Post Image';
+                postImage.style.maxWidth = '100%'; // Set width
+                postImage.style.height = 'auto'; // Set height
+                postImage.style.borderRadius="10px";
+
+                // Append image to the user info
+                userInfo.appendChild(postImage);
+            }
+            userInfo.appendChild(postText);
+
+            // Appending user image and info to card body
+            cardBody.appendChild(userImage);
+            cardBody.appendChild(userInfo);
+
+            // Appending card body to card
+            card.appendChild(cardBody);
+            // (function(emailText) {
+            //     card.addEventListener('click', function() {
+            //         console.log(emailText);
+            //         var emailSubject = "Regarding your post in KentConnects";
+            //         var emailBody = "Your email body";
+            //         window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" + emailText + "&su=" + emailSubject + "&body=" + emailBody, '_blank');
+            //     });
+            // })(mailname.textContent);
+            
+            (function(emailText) {
+                card.addEventListener('click', function() {
+                // var emailText = mailname.textContent;
+                var emailSubject = "Regarding your post in KentConnects";
+                var emailBody = "Your email body";
+
+                // Check if the device is mobile
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                if (isMobile) {
+
+                    window.location.href = "mailto:" + emailText + "?subject=" + emailSubject + "&body=" + emailBody;
+                } else {
+                    // Open in a new tab for non-mobile devices
+                    window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" + emailText + "&su=" + emailSubject + "&body=" + emailBody, '_blank');
+                }
+            });
+        })(mailname.textContent);
+            // Append the card to the column
+            col.appendChild(card);
+
+            // Append the column to the row
+            row.appendChild(col);
+        }
+
+        // Append the row to the container
         
-        mailname.textContent = mail;
-        
-        var postText = document.createElement('p');
-        postText.className = 'card-text';
-        postText.textContent = post.text; // Replace with the actual post text
-
-        userInfo.appendChild(username);
-        userInfo.appendChild(mailname);
-        userInfo.appendChild(postText);
 
         
-
-        cardBody.appendChild(userImage);
-        cardBody.appendChild(userInfo);
-
-        card.appendChild(cardBody);
-        
-
-        // Append the card to the container
-        allCardsContainer.appendChild(card);
-        allCardsContainer.appendChild(card);
-
-        // Append the card to the container
-        allCardsContainer.appendChild(card);
-
-        // Add event listener to each indivpostcard
-        card.addEventListener('click', function() {
-            var email = card.querySelector('.mail').textContent;
-            console.log(email);
-            var emailSubject = "Regarding your post in KentRides";
-            var emailBody = "Your email body";
-            window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" +email + "&su=" + emailSubject + "&body=" + emailBody, '_blank');
-        });
-        
-    });
-    
+        allCardsContainer.appendChild(row);
+    };
 }
 
 
@@ -321,6 +415,19 @@ function renderPostsWithDel(posts,authUser) {
         });
         
         userInfo.appendChild(username);
+        // Image
+        if (post.imageUrl) {
+            var postImage = document.createElement('img');
+            postImage.src = post.imageUrl; // Set the image source from Firebase Storage
+            postImage.className = 'post-img'; // Set appropriate class for styling
+            postImage.alt = 'Post Image';
+            postImage.style.maxWidth = '100%'; // Set width
+            postImage.style.height = 'auto'; // Set height
+            postImage.style.borderRadius="10px";
+
+            // Append image to the user info
+            userInfo.appendChild(postImage);
+        }
         userInfo.appendChild(postText);
 
         cardBody.appendChild(userImage);
@@ -337,10 +444,10 @@ function renderPostsWithDel(posts,authUser) {
 fetchAllPosts();
 
 
-// Add event listener to each indivpostcard
-document.querySelectorAll('.indivpostcard').forEach(function(card) {
-    card.addEventListener('click', function() {
-        var email = card.querySelector('.mail').textContent;
-        console.log(email);
-    });
-});
+// // Add event listener to each indivpostcard
+// document.querySelectorAll('.indivpostcard').forEach(function(card) {
+//     card.addEventListener('click', function() {
+//         var email = card.querySelector('.mail').textContent;
+//         console.log(email);
+//     });
+// });

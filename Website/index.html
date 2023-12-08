@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KentRides</title>
+    <!-- Favicon -->
+    <link rel="icon" href="logopng_black.png" type="image/x-icon">
+    <link rel="shortcut icon" href="logopng_black.png" type="image/x-icon">
+    
+    <title>KentConnects</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <!-- Include Firebase libraries -->
+
+<!-- Your other HTML and script code -->
+
 
   <!-- Add Firebase products that you want to use -->
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
+
+
 
   <script>
     // Your web app's Firebase configuration
@@ -34,15 +46,15 @@
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container">
         
-        <img src="logopngwhite.png" alt="KentRides Logo" style="width: 40px; height: 40px;">
-        <a class="navbar-brand" href="#">KentRides</a>
+        <img src="logopngwhite.png" alt="KentConnects Logo" style="width: 40px; height: 40px;">
+        <a class="navbar-brand" href="#">KentConnects</a>
         <div class="navbar-nav ml-auto">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label id="mypostslabel" class="btn btn-outline-dark active">
-                    <input type="radio" name="options" id="requestOption" onchange="handleRadioButtonChange3(this)"> Request
+                    <input type="radio" name="options" id="requestOption" onchange="handleRadioButtonChange3(this)"> Request Ride
                 </label>
-                <label id="allpostslabel" class="btn btn-outline-dark">
-                    <input type="radio" name="options" id="offerOption" onchange="handleRadioButtonChange3(this)"> Offer
+                <label id="allpostslabel" class="btn btn-outline-dark ">
+                    <input type="radio" name="options" id="offerOption" onchange="handleRadioButtonChange3(this)"> Offer Ride
                 </label>
             </div>
             
@@ -82,7 +94,17 @@
                     <h5 class="card-title">Create a New Post</h5>
                     <form>
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter your post">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Enter your post">
+                                <div class="input-group-append">
+                                    <label for="imageUpload" class="input-group-text" style="cursor: pointer;">
+                                        <i class="fa-regular fa-image"></i>
+                                        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                                        
+
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">Post</button>
                     </form>
@@ -175,6 +197,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- Include a jQuery time picker plugin of your choice -->
+
+
 
 
 </body>

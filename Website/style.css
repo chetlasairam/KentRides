@@ -4,17 +4,17 @@ body {
 }
 .navbar {
     margin-bottom: 10px;
-    background-color: #28A745;
+    background-color:  #2ecc71;
 }
 .allCards {
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #ececec;
+    background-color: rgba(192, 191, 191, 0.505);
     border: none;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     overflow: auto;
-    height: 40vh;
+    max-height: 100vh;
     scrollbar-width: none; /* For Firefox */
     -ms-overflow-style: none; /* For Internet Explorer 10+ */
 }
@@ -40,11 +40,11 @@ body {
     border-radius: 20px;
 }
 .btn-search {
-    background-color: #28A745;
+    background-color:  #2ecc71;
     color: white;
 }
 .btn-search:hover {
-    background-color: #218838;
+    background-color:  #2ecc71;
 }
 .navbar-brand, .nav-link {
     color: rgb(255, 255, 255) !important;
@@ -138,7 +138,16 @@ body {
     padding: 10px;
 }
 
-
 .indivpostcard .mail{
     display: none;
+}
+
+.post-img{
+    border-radius: 10px;
+    width: 150px;
+    height: 150px;
+}
+
+.allpostslabel{
+    background-color: #e67e22;
 }

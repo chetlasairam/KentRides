@@ -63,7 +63,7 @@ function rendermsgRequestssWithDel3(msgRequestss,authUser) {
     var email=authUser.email;
 
     // Clear existing msgRequestss (if any)
-    allCardsContainer.innerHTML = '';
+    allCardsContainer.innerHTML = '<h4>Requests</h4>';
 
     if (msgRequestss.length === 0) {
         var noRidesCard = document.createElement('div');
@@ -128,7 +128,15 @@ function rendermsgRequestssWithDel3(msgRequestss,authUser) {
             messageButton.addEventListener('click', function() {
                 var emailSubject = "I Can offer you a ride";
                 var emailBody = "Your email body";
+                // Check if the device is mobile
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                if (isMobile) {
+
+                    window.location.href = "mailto:" + msgRequests.email + "?subject=" + emailSubject + "&body=" + emailBody;
+                } else {
                 window.open("https://mail.google.com/mail/?view=cm&fs=1&to=" + msgRequests.email + "&su=" + emailSubject + "&body=" + emailBody, '_blank');
+                }
             });
                 
     
